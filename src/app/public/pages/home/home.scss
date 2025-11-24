@@ -16,13 +16,11 @@
   animation: fadeIn 0.8s ease;
 }
 
-/* Animación */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Contenedor general */
 .wrapper {
   width: 100%;
   max-width: 1200px;
@@ -30,7 +28,6 @@
   padding: 0 40px;
 }
 
-/* Navbar */
 .navbar {
   position: fixed;
   top: 0;
@@ -50,7 +47,6 @@
   align-items: center;
 }
 
-/* Logo */
 .logo {
   font-size: 1.9rem;
   font-weight: 700;
@@ -59,7 +55,6 @@
 }
 .logo span { color: #ff5252; }
 
-/* Menú */
 .menu a {
   margin-left: 30px;
   text-decoration: none;
@@ -75,7 +70,6 @@
   border-radius: 8px;
 }
 
-/* Hero */
 .hero {
   padding-top: 180px;
   text-align: center;
@@ -89,7 +83,6 @@
   margin-bottom: 30px;
 }
 
-
 .subtitulo {
   margin-top: 20px;
   font-size: 1.25rem;
@@ -97,7 +90,6 @@
   margin-bottom: 50px;
 }
 
-/* Botones */
 .botones {
   display: flex;
   flex-direction: column;
@@ -129,7 +121,6 @@
 .primario { border-color: #42a5f5; color: #42a5f5; }
 .secundario { border-color: #66bb6a; color: #66bb6a; }
 
-/* Botón hamburguesa */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -147,7 +138,6 @@
   border-radius: 4px;
 }
 
-/* --- RESPONSIVE FINAL ÚNICO --- */
 @media (max-width: 768px) {
 
   .wrapper { padding: 0 20px; }
@@ -158,12 +148,10 @@
 
   .subtitulo { font-size: 1.05rem; }
 
-  /* Mostrar hamburguesa */
   .hamburger {
     display: flex;
   }
 
-  /* Menú móvil */
   .menu {
     position: absolute;
     top: 80px;
@@ -175,9 +163,10 @@
     display: none;
     text-align: center;
     border-top: 1px solid rgba(255,255,255,0.1);
+
+    align-items: center !important;
   }
 
-  /* Mostrar cuando está abierto */
   .menu.open {
     display: flex;
   }
@@ -189,6 +178,8 @@
 
   .login-btn {
     width: 140px;
-    margin: 0 auto;
+
+    margin: 0 auto !important;
+    display: inline-block !important;
   }
 }

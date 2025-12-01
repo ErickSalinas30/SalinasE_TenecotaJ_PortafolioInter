@@ -1,0 +1,22 @@
+<nav class="navbar">
+  <div class="left">
+    <a routerLink="/">Home</a>
+
+    <a *ngIf="auth.currentRole === 'admin'" routerLink="/admin">Admin</a>
+
+    <a *ngIf="auth.currentRole === 'programador'" routerLink="/programador">Programador</a>
+  </div>
+
+  <div class="right">
+
+    <a *ngIf="!auth.isLogged()" routerLink="/login">Iniciar sesión</a>
+
+    <div *ngIf="auth.isLogged()" class="user-info">
+      <img [src]="auth.currentUser?.photo" alt="Foto usuario" />
+      <span>{{ auth.currentUser?.name }}</span>
+
+      <button (click)="logout()">Cerrar sesión</button>
+    </div>
+
+  </div>
+</nav>

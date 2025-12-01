@@ -15,10 +15,35 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  async login() {
-    const result = await this.authService.loginWithGoogle();
-    if (result) {
+
+  constructor() {
+    const user = this.authService.currentUser;
+
+    if (user) {
+
       this.router.navigate(['/']);
     }
   }
+
+
+  async login() {
+    const result = await this.authService.loginWithGoogle();
+
+    if (!result) return;
+
+    const user = this.authService.currentUser;
+
+    if (user.role === 'admin') {
+      this.router.navigate(['/admin']);
+      return;
+    }
+
+    if (user.role === 'programador') {
+      this.router.navigate(['/programador']);
+      return;
+    }
+
+    this.router.navigate(['/']);
+  }
+
 }

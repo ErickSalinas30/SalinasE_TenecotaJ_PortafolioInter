@@ -1,12 +1,11 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyBpJT48gIXFmctMsZ3SeTQcCxfU0iPU7MA",
-    authDomain: "portafoliost-3cb34.firebaseapp.com",
-    projectId: "portafoliost-3cb34",
-    storageBucket: "portafoliost-3cb34.firebasestorage.app",
-    messagingSenderId: "219352220430",
-    appId: "1:219352220430:web:12777a60dd0ca962838d5f",
-    measurementId: "G-LGDDZSC0QV"
+    apiKey: "AIzaSyDuaZ0u_E3PHJ2gfP7Qp55_-IeaBRrKXqA",
+    authDomain: "salitenecoportafolio.firebaseapp.com",
+    projectId: "salitenecoportafolio",
+    storageBucket: "salitenecoportafolio.firebasestorage.app",
+    messagingSenderId: "110341634338",
+    appId: "1:110341634338:web:f0aebb21a1f361f8b90d7b"
   }
 };

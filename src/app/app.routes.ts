@@ -28,9 +28,5 @@ export const routes: Routes = [
       import('./programador/dashboard/dashboard')
         .then(m => m.Dashboard),
   },
-
-  {
-    path: '**',
-    redirectTo: '',
-  },
+  { path: '**', redirectTo: '' },
 ];

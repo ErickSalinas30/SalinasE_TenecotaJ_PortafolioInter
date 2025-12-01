@@ -1,0 +1,118 @@
+.admin-wrapper {
+  padding-top: 120px;
+  padding-bottom: 50px;
+  color: #e3e3e3;
+}
+
+.admin-header {
+  margin-bottom: 30px;
+  h1 { font-size: 2rem; margin-bottom: 10px; }
+  p { color: #888; }
+}
+
+.table-container {
+  background: #161616;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+  overflow-x: auto; /* Para móviles */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 15px;
+  color: #888;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: middle;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .name { font-weight: 600; color: #fff; }
+  .email { font-size: 0.85rem; color: #666; }
+}
+
+/* Badges de Roles */
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  
+  &.admin { background: rgba(255, 82, 82, 0.15); color: #ff5252; }
+  &.programador { background: rgba(66, 165, 245, 0.15); color: #42a5f5; }
+  &.usuario { background: rgba(255, 255, 255, 0.1); color: #aaa; }
+}
+
+/* Botones */
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  transition: 0.2s;
+  
+  &.edit { color: #ffb300; }
+  &.delete { color: #ff5252; margin-left: 10px; }
+  
+  &:hover { transform: scale(1.2); }
+}
+
+.btn-save {
+  background: #66bb6a;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+  font-size: 0.8rem;
+}
+
+.btn-cancel {
+  background: #424242;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Inputs en modo edición */
+.input-dark {
+  background: #252525;
+  border: 1px solid #444;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  
+  &:focus { outline: none; border-color: #42a5f5; }
+}
+
+.mt-2 { margin-top: 8px; }
+.email-readonly { color: #555; font-size: 0.85rem; margin-top: 5px; }

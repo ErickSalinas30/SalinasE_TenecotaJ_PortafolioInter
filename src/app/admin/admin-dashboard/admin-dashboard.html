@@ -1,1 +1,70 @@
 <p>admin-dashboard works!</p>
+<div class="admin-wrapper wrapper">
+  <div class="admin-header">
+    <h1>Panel de Administración</h1>
+    <p>Gestiona usuarios, roles y perfiles de programadores.</p>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Rol Actual</th>
+          <th>Especialidad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Iteramos sobre los usuarios -->
+        <tr *ngFor="let user of users$ | async">
+          
+          <!-- MODO VISTA: Si NO se está editando este usuario -->
+          <ng-container *ngIf="editingId !== user.uid">
+            <td>
+              <div class="user-info">
+                <img [src]="user.photoURL || 'https://ui-avatars.com/api/?name='+user.displayName" class="avatar">
+                <div>
+                  <div class="name">{{ user.displayName }}</div>
+                  <div class="email">{{ user.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="role-badge" [ngClass]="user.role">{{ user.role }}</span>
+            </td>
+            <td>{{ user.specialty || '---' }}</td>
+            <td>
+              <button class="btn-icon edit" (click)="startEdit(user)" title="Editar">✎</button>
+              <button class="btn-icon delete" (click)="deleteUser(user.uid)" title="Eliminar">🗑</button>
+            </td>
+          </ng-container>
+
+          <!-- MODO EDICIÓN: Si se está editando este usuario -->
+          <ng-container *ngIf="editingId === user.uid">
+            <td>
+              <input type="text" [(ngModel)]="editForm.displayName" class="input-dark">
+              <div class="email-readonly">{{ user.email }}</div>
+            </td>
+            <td>
+              <select [(ngModel)]="editForm.role" class="input-dark">
+                <option value="usuario">Usuario</option>
+                <option value="programador">Programador</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" [(ngModel)]="editForm.specialty" placeholder="Ej: Backend Dev" class="input-dark">
+              <textarea [(ngModel)]="editForm.description" placeholder="Descripción breve..." class="input-dark mt-2"></textarea>
+            </td>
+            <td>
+              <button class="btn-save" (click)="saveUser()">Guardar</button>
+              <button class="btn-cancel" (click)="cancelEdit()">X</button>
+            </td>
+          </ng-container>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

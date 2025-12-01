@@ -13,7 +13,4 @@ export class Home
 {
   menuOpen = false;
 }
-
-
-
 //Agregacion de nvar responsive y guardado de cambios

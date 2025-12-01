@@ -6,6 +6,7 @@ export const environment = {
     projectId: "salitenecoportafolio",
     storageBucket: "salitenecoportafolio.firebasestorage.app",
     messagingSenderId: "110341634338",
-    appId: "1:110341634338:web:f0aebb21a1f361f8b90d7b"
+    appId: "1:110341634338:web:f0aebb21a1f361f8b90d7b",
+    measurementId: "G-J94022WWF9"
   }
 };

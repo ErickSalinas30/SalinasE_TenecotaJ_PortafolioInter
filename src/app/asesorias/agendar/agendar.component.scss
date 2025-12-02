@@ -1,0 +1,61 @@
+.agendar-wrapper {
+  padding-top: 120px;
+  padding-bottom: 60px;
+  display: flex;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  background: #161616;
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+
+  h1 { color: #fff; margin: 0 0 10px 0; text-align: center; }
+  p { color: #888; text-align: center; margin-bottom: 30px; }
+}
+
+.form-group {
+  margin-bottom: 20px;
+  
+  label { display: block; margin-bottom: 8px; color: #aaa; font-size: 0.9rem; }
+}
+
+.input-dark {
+  width: 100%;
+  background: #0d0d0d;
+  border: 1px solid #333;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: inherit;
+  box-sizing: border-box; /* Importante para que no se desborde */
+
+  &:focus { outline: none; border-color: #42a5f5; }
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  .form-group { flex: 1; }
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 15px;
+  background: #66bb6a; /* Verde confirmación */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .3s;
+  margin-top: 10px;
+
+  &:hover { background: #57a65b; transform: translateY(-2px); }
+}

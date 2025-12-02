@@ -1,0 +1,43 @@
+<div class="agendar-wrapper wrapper">
+  <div class="form-container">
+    <h1>Agendar Asesoría</h1>
+    <p>Selecciona un experto y reserva tu espacio.</p>
+
+    <div class="form-grid">
+      
+      <!-- Selección de Programador -->
+      <div class="form-group">
+        <label>¿Con quién quieres hablar?</label>
+        <select [(ngModel)]="solicitud.programadorId" class="input-dark">
+          <option value="" disabled selected>Selecciona un programador</option>
+          <option *ngFor="let p of programadores" [value]="p.uid">
+            {{ p.displayName }} - {{ p.specialty }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Fecha y Hora -->
+      <div class="row">
+        <div class="form-group">
+          <label>Fecha</label>
+          <input type="date" [(ngModel)]="solicitud.fecha" class="input-dark">
+        </div>
+        <div class="form-group">
+          <label>Hora Preferida</label>
+          <input type="time" [(ngModel)]="solicitud.hora" class="input-dark">
+        </div>
+      </div>
+
+      <!-- Motivo -->
+      <div class="form-group">
+        <label>¿Sobre qué quieres consultar?</label>
+        <textarea [(ngModel)]="solicitud.tema" rows="4" 
+          placeholder="Describe brevemente tus dudas o el proyecto..." 
+          class="input-dark"></textarea>
+      </div>
+
+      <button class="btn-submit" (click)="enviarSolicitud()">Enviar Solicitud</button>
+
+    </div>
+  </div>
+</div>

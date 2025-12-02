@@ -1,7 +1,14 @@
 <div class="admin-wrapper wrapper">
-  <div class="admin-header">
-    <h1>Panel de Administración</h1>
-    <p>Gestiona usuarios, roles y perfiles de programadores.</p>
+  
+  <!-- Encabezado con Botón de Crear -->
+  <div class="admin-header-flex">
+    <div class="header-text">
+      <h1>Panel de Administración</h1>
+      <p>Gestiona usuarios, roles y perfiles de programadores.</p>
+    </div>
+    <button class="btn-create" (click)="toggleCreateModal()">
+      + Nuevo Usuario
+    </button>
   </div>
 
   <div class="table-container">
@@ -10,15 +17,14 @@
         <tr>
           <th>Usuario</th>
           <th>Rol Actual</th>
-          <th>Especialidad</th>
+          <th>Especialidad / Datos</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Iteramos sobre los usuarios -->
         <tr *ngFor="let user of users$ | async">
           
-          <!-- MODO VISTA: Si NO se está editando este usuario -->
+          <!-- MODO VISTA -->
           <ng-container *ngIf="editingId !== user.uid">
             <td>
               <div class="user-info">
@@ -32,14 +38,17 @@
             <td>
               <span class="role-badge" [ngClass]="user.role">{{ user.role }}</span>
             </td>
-            <td>{{ user.specialty || '---' }}</td>
+            <td>
+              <div>{{ user.specialty || '---' }}</div>
+              <small style="color: #666" *ngIf="user.horarios">{{ user.horarios }}</small>
+            </td>
             <td>
               <button class="btn-icon edit" (click)="startEdit(user)" title="Editar">✎</button>
               <button class="btn-icon delete" (click)="deleteUser(user.uid)" title="Eliminar">🗑</button>
             </td>
           </ng-container>
 
-          <!-- MODO EDICIÓN: Si se está editando este usuario -->
+          <!-- MODO EDICIÓN -->
           <ng-container *ngIf="editingId === user.uid">
             <td>
               <input type="text" [(ngModel)]="editForm.displayName" class="input-dark">
@@ -53,8 +62,9 @@
               </select>
             </td>
             <td>
-              <input type="text" [(ngModel)]="editForm.specialty" placeholder="Ej: Backend Dev" class="input-dark">
-              <textarea [(ngModel)]="editForm.description" placeholder="Descripción breve..." class="input-dark mt-2"></textarea>
+              <input type="text" [(ngModel)]="editForm.specialty" placeholder="Especialidad" class="input-dark mb-2">
+              <input type="text" [(ngModel)]="editForm.horarios" placeholder="Horarios (Lun-Vie)" class="input-dark mb-2">
+              <textarea [(ngModel)]="editForm.description" placeholder="Descripción..." class="input-dark"></textarea>
             </td>
             <td>
               <button class="btn-save" (click)="saveUser()">Guardar</button>
@@ -65,5 +75,41 @@
         </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+<!-- === VENTANA MODAL (POPUP) PARA CREAR USUARIO === -->
+<div class="modal-overlay" *ngIf="showCreateModal">
+  <div class="modal-content">
+    <h2>Registrar Nuevo Usuario</h2>
+    
+    <div class="form-group">
+      <label>Nombre Completo</label>
+      <input type="text" [(ngModel)]="newUser.displayName" class="input-dark" placeholder="Ej: Ana López">
+    </div>
+
+    <div class="form-group">
+      <label>Correo Electrónico</label>
+      <input type="email" [(ngModel)]="newUser.email" class="input-dark" placeholder="usuario@gmail.com">
+    </div>
+
+    <div class="form-group">
+      <label>Rol Asignado</label>
+      <select [(ngModel)]="newUser.role" class="input-dark">
+        <option value="usuario">Usuario Normal</option>
+        <option value="programador">Programador</option>
+        <option value="admin">Administrador</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Especialidad (Opcional)</label>
+      <input type="text" [(ngModel)]="newUser.specialty" class="input-dark" placeholder="Ej: Frontend Angular">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="toggleCreateModal()">Cancelar</button>
+      <button class="btn-save" (click)="createUser()">Crear Usuario</button>
+    </div>
   </div>
 </div>

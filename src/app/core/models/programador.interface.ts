@@ -3,7 +3,9 @@ export interface Programador {
   displayName: string;
   photoURL?: string;
   email: string;
-  specialty?: string; // O 'especialidad' si prefieres todo español
-  description?: string; // O 'descripcion'
+  specialty?: string;
+  description?: string;
+  horarios?: string; // <--- Esta es la línea que te falta
   role: 'admin' | 'programador' | 'usuario';
+  createdAt?: any; // Agregamos esto también por si acaso
 }

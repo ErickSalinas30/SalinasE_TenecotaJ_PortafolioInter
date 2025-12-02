@@ -5,6 +5,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { routes } from './app.routes'; // Asumiendo que tus rutas están aquí
 import { environment } from '../environments/environment'; // Importar la configuración
 
+
 // AngularFire Imports
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -15,11 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
 
-    // --- CONEXIÓN A FIREBASE ---
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()), // Habilita Autenticación
-    provideFirestore(() => getFirestore()), // Habilita Base de Datos Firestore
-    
-
+    provideAuth(() => getAuth()), 
+    provideFirestore(() => getFirestore()), 
   ]
 };

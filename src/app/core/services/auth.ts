@@ -24,12 +24,11 @@ export class AuthService {
         uid: firebaseUser.uid,
         name: firebaseUser.displayName,
         email: firebaseUser.email,
-        role: 'programador', // 👈 asigna un rol por defecto
+        role: 'programador', 
         createdAt: new Date()
       });
     }
 
-    // Volvemos a leer para tener role garantizado
     const updatedSnap = await getDoc(userRef);
     this.userData.next(updatedSnap.data());
   }

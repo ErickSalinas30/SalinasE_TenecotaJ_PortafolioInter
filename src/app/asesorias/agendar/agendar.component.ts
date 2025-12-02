@@ -11,7 +11,7 @@ import { Asesoria } from '../../core/models/asesoria.interface';
   selector: 'app-agendar',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './agendar.component.html',       // Antes decía agendar.component.html
+  templateUrl: './agendar.component.html',
   styleUrls: ['./agendar.component.scss']
 })
 export class AgendarComponent implements OnInit {
@@ -21,11 +21,16 @@ export class AgendarComponent implements OnInit {
 
   programadores: Programador[] = [];
   
-  // Modelo del formulario
+  // --- NUEVO: Lista de horas fijas de 8:00 a 17:00 ---
+  horariosDisponibles: string[] = [
+    '08:00', '09:00', '10:00', '11:00', '12:00', 
+    '13:00', '14:00', '15:00', '16:00', '17:00'
+  ];
+
   solicitud: any = {
     programadorId: '',
     fecha: '',
-    hora: '',
+    hora: '', // Aquí se guardará una de las horas de la lista
     tema: ''
   };
 
@@ -53,12 +58,11 @@ export class AgendarComponent implements OnInit {
       return;
     }
 
-    if (!this.solicitud.programadorId || !this.solicitud.fecha || !this.solicitud.tema) {
+    if (!this.solicitud.programadorId || !this.solicitud.fecha || !this.solicitud.hora || !this.solicitud.tema) {
       alert('Por favor completa todos los campos.');
       return;
     }
 
-    // Buscamos el nombre del programador seleccionado para guardarlo
     const progSeleccionado = this.programadores.find(p => p.uid === this.solicitud.programadorId);
 
     const nuevaAsesoria: Asesoria = {
@@ -76,7 +80,7 @@ export class AgendarComponent implements OnInit {
     try {
       await addDoc(collection(this.firestore, 'asesorias'), nuevaAsesoria);
       alert('¡Solicitud enviada! El programador revisará tu petición.');
-      this.router.navigate(['/']); // Volver al home
+      this.router.navigate(['/']); 
     } catch (error) {
       console.error(error);
       alert('Error al enviar la solicitud.');

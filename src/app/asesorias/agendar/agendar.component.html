@@ -22,9 +22,18 @@
           <label>Fecha</label>
           <input type="date" [(ngModel)]="solicitud.fecha" class="input-dark">
         </div>
+        
         <div class="form-group">
-          <label>Hora Preferida</label>
-          <input type="time" [(ngModel)]="solicitud.hora" class="input-dark">
+          <label>Hora (Solo horas en punto)</label>
+          
+          <!-- CAMBIO AQUÍ: Usamos Select en lugar de Input Time -->
+          <select [(ngModel)]="solicitud.hora" class="input-dark">
+            <option value="" disabled selected>Selecciona hora</option>
+            <option *ngFor="let h of horariosDisponibles" [value]="h">
+              {{ h }}
+            </option>
+          </select>
+
         </div>
       </div>
 

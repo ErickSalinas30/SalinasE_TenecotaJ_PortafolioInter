@@ -14,6 +14,20 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./auth/login/login').then(m => m.Login),
   },
+  
+  // --- INICIO DE RUTAS PÚBLICAS NUEVAS ---
+  {
+    path: 'portafolios',
+    loadComponent: () => 
+      import('./public/pages/programadores/programadores').then(m => m.Programadores),
+  },
+  {
+    path: 'portafolio/:id', // El :id es vital para saber qué perfil mostrar
+    loadComponent: () => 
+      import('./public/pages/portafolio/portafolio').then(m => m.Portafolio),
+  },
+  // --- FIN DE RUTAS PÚBLICAS NUEVAS ---
+
   {
     path: 'admin',
     canActivate: [authGuard, adminGuard],

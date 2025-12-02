@@ -1,0 +1,128 @@
+.dash-wrapper {
+  padding-top: 120px;
+  padding-bottom: 60px;
+  color: #e3e3e3;
+}
+
+.dash-header {
+  margin-bottom: 40px;
+  h1 { margin-bottom: 10px; }
+  p { color: #888; }
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Columna derecha más ancha */
+  gap: 40px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Formulario */
+.form-card {
+  background: #161616;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+  height: fit-content;
+
+  h2 { margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; }
+}
+
+.form-group {
+  margin-bottom: 15px;
+  
+  label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #aaa; }
+}
+
+.input-dark {
+  width: 100%;
+  background: #0d0d0d;
+  border: 1px solid #333;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  &:focus { outline: none; border-color: #42a5f5; }
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  .form-group { flex: 1; }
+}
+
+.btn-submit {
+  width: 100%;
+  background: #42a5f5;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: .2s;
+
+  &:hover { background: #1e88e5; }
+}
+
+/* Lista de Proyectos */
+.projects-list {
+  h2 { margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; }
+}
+
+.project-card {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border-left: 4px solid #42a5f5;
+  position: relative;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.badge {
+  background: rgba(66, 165, 245, 0.15);
+  color: #42a5f5;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  &.work { color: #66bb6a; background: rgba(102, 187, 106, 0.15); border-left-color: #66bb6a; }
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 0.5;
+  
+  &:hover { color: #ff5252; }
+}
+
+h3 { margin: 0 0 5px 0; font-size: 1.2rem; }
+.tech { color: #888; font-size: 0.9rem; margin-bottom: 10px; font-style: italic; }
+.desc { color: #ccc; font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; }
+
+.links a {
+  margin-right: 15px;
+  color: #ffb300;
+  text-decoration: none;
+  font-size: 0.9rem;
+  
+  &:hover { text-decoration: underline; }
+}

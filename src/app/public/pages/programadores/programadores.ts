@@ -10,7 +10,7 @@ import { Programador } from '../../../core/models/programador.interface';
 @Component({
   selector: 'app-programadores',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './programadores.html',
   styleUrls: ['./programadores.scss']
 })

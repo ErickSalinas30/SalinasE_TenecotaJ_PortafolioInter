@@ -1,1 +1,78 @@
 <p>dashboard works!</p>
+<div class="dash-wrapper wrapper">
+  
+  <div class="dash-header">
+    <h1>Mi Portafolio</h1>
+    <p>Bienvenido, gestiona tus proyectos académicos y laborales.</p>
+  </div>
+
+  <div class="dash-grid">
+    
+    <!-- COLUMNA 1: Formulario de Creación -->
+    <div class="form-card">
+      <h2>Nuevo Proyecto</h2>
+      
+      <div class="form-group">
+        <label>Título del Proyecto</label>
+        <input type="text" [(ngModel)]="newProject.titulo" placeholder="Ej: Sistema de Ventas" class="input-dark">
+      </div>
+
+      <div class="form-group">
+        <label>Tipo</label>
+        <select [(ngModel)]="newProject.tipo" class="input-dark">
+          <option value="Academico">Académico</option>
+          <option value="Laboral">Laboral</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Tecnologías (separadas por coma)</label>
+        <input type="text" [(ngModel)]="newProject.tecnologias" placeholder="Angular, Firebase, Sass..." class="input-dark">
+      </div>
+
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea [(ngModel)]="newProject.descripcion" rows="4" class="input-dark"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>URL Repositorio (Git)</label>
+          <input type="text" [(ngModel)]="newProject.repoUrl" class="input-dark">
+        </div>
+        <div class="form-group">
+          <label>URL Demo (Deploy)</label>
+          <input type="text" [(ngModel)]="newProject.demoUrl" class="input-dark">
+        </div>
+      </div>
+
+      <button class="btn-submit" (click)="addProject()">Publicar Proyecto</button>
+    </div>
+
+    <!-- COLUMNA 2: Lista de mis proyectos -->
+    <div class="projects-list">
+      <h2>Mis Proyectos Publicados</h2>
+
+      <div class="project-card" *ngFor="let p of projects$ | async">
+        <div class="card-header">
+          <span class="badge" [class.work]="p.tipo === 'Laboral'">{{ p.tipo }}</span>
+          <button class="btn-delete" (click)="deleteProject(p.id!)">×</button>
+        </div>
+        
+        <h3>{{ p.titulo }}</h3>
+        <p class="tech">{{ p.tecnologias }}</p>
+        <p class="desc">{{ p.descripcion }}</p>
+        
+        <div class="links">
+          <a *ngIf="p.repoUrl" [href]="p.repoUrl" target="_blank">Ver Código</a>
+          <a *ngIf="p.demoUrl" [href]="p.demoUrl" target="_blank">Ver Demo</a>
+        </div>
+      </div>
+
+      <div *ngIf="(projects$ | async)?.length === 0" class="empty-state">
+        <p>Aún no has subido proyectos.</p>
+      </div>
+    </div>
+
+  </div>
+</div>

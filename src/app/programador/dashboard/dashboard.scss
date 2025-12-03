@@ -1,18 +1,38 @@
+/* MAIN WRAPPER ––––––––––––––––––––––––––––––––– */
 .dash-wrapper {
-  padding-top: 120px;
+  padding-top: 0;            /* Ya no deja espacio arriba */
   padding-bottom: 60px;
+  padding-left: 60px;
+  padding-right: 60px;
   color: #e3e3e3;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
+/* HEADER ––––––––––––––––––––––––––––––––––––––– */
 .dash-header {
-  margin-bottom: 40px;
-  h1 { margin-bottom: 10px; }
-  p { color: #888; }
+  margin: 0 0 40px 0;
+  padding-top: 8px;
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+    font-family: "Poppins", sans-serif;
+  }
+
+  p {
+    color: #aaaaaa;
+    font-size: 1.05rem;
+  }
 }
 
+/* GRID PRINCIPAL ––––––––––––––––––––––––––––––– */
 .dash-grid {
   display: grid;
-  grid-template-columns: 1fr 1.5fr; /* Columna derecha más ancha */
+  grid-template-columns: 1fr 1.5fr;
   gap: 40px;
 
   @media (max-width: 900px) {
@@ -20,59 +40,93 @@
   }
 }
 
-/* Formulario */
+/* FORMULARIO ––––––––––––––––––––––––––––––––––– */
 .form-card {
   background: #161616;
   padding: 30px;
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   height: fit-content;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 
+              0 4px 20px rgba(0,0,0,0.4);
+  transition: transform .2s ease, box-shadow .2s ease;
 
-  h2 { margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; }
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.07),
+                0 10px 35px rgba(0,0,0,0.55);
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 25px 0;
+    font-family: "Poppins", sans-serif;
+  }
 }
 
 .form-group {
   margin-bottom: 15px;
-  
-  label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #aaa; }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #aaa;
+  }
 }
 
+/* INPUTS –––––––––––––––––––––––––––––––––––––– */
 .input-dark {
   width: 100%;
-  background: #0d0d0d;
-  border: 1px solid #333;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
   color: white;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 12px 15px;
+  border-radius: 10px;
   box-sizing: border-box;
 
-  &:focus { outline: none; border-color: #42a5f5; }
+  &:focus {
+    outline: none;
+    border-color: #42a5f5;
+    background: #111111;
+  }
 }
 
 .form-row {
   display: flex;
   gap: 15px;
-  .form-group { flex: 1; }
+
+  .form-group {
+    flex: 1;
+  }
 }
 
+/* BOTÓN ––––––––––––––––––––––––––––––––––––––– */
 .btn-submit {
   width: 100%;
-  background: #42a5f5;
+  background: linear-gradient(120deg, #42a5f5, #1e88e5);
   color: white;
   border: none;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
   margin-top: 10px;
-  transition: .2s;
+  transition: 0.2s;
 
-  &:hover { background: #1e88e5; }
+  &:hover {
+    background: linear-gradient(120deg, #1e88e5, #42a5f5);
+    transform: translateY(-2px);
+  }
 }
 
-/* Lista de Proyectos */
-.projects-list {
-  h2 { margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; }
+/* LISTA DE PROYECTOS ––––––––––––––––––––––––––– */
+.projects-list h2 {
+  font-size: 1.6rem;
+  margin-bottom: 25px;
+  font-family: "Poppins", sans-serif;
 }
 
 .project-card {
@@ -82,6 +136,24 @@
   margin-bottom: 20px;
   border-left: 4px solid #42a5f5;
   position: relative;
+
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 
+              0 4px 20px rgba(0,0,0,0.4);
+  transition: transform .2s ease, box-shadow .2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.07),
+                0 10px 35px rgba(0,0,0,0.55);
+  }
+
+  h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fefefe;
+    font-family: "Poppins", sans-serif;
+  }
 }
 
 .card-header {
@@ -91,18 +163,23 @@
   margin-bottom: 10px;
 }
 
+/* BADGES –––––––––––––––––––––––––––––––––––––– */
 .badge {
-  background: rgba(66, 165, 245, 0.15);
-  color: #42a5f5;
-  padding: 4px 10px;
-  border-radius: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
   font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: rgba(66, 165, 245, 0.2);
+  color: #4dabf7;
 
-  &.work { color: #66bb6a; background: rgba(102, 187, 106, 0.15); border-left-color: #66bb6a; }
+  &.work {
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+  }
 }
 
+/* DELETE BUTTON */
 .btn-delete {
   background: none;
   border: none;
@@ -110,19 +187,39 @@
   font-size: 1.5rem;
   cursor: pointer;
   line-height: 0.5;
-  
-  &:hover { color: #ff5252; }
+
+  &:hover {
+    color: #ff5252;
+  }
 }
 
-h3 { margin: 0 0 5px 0; font-size: 1.2rem; }
-.tech { color: #888; font-size: 0.9rem; margin-bottom: 10px; font-style: italic; }
-.desc { color: #ccc; font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; }
+/* TEXTO DE LOS PROYECTOS */
+.tech {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.desc {
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
 
 .links a {
   margin-right: 15px;
   color: #ffb300;
   text-decoration: none;
   font-size: 0.9rem;
-  
-  &:hover { text-decoration: underline; }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* TIPOGRAFÍA GENERAL */
+body {
+  font-family: "Inter", sans-serif;
 }

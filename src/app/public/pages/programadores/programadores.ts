@@ -1,11 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Firestore, collection, query, where, collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
-// CORRECCIÓN AQUÍ: Importamos la interfaz con el nombre correcto
-import { Programador } from '../../../core/models/programador.interface';
+import { Programador } from '../../../core/models/programadores.interface';
+import { ProgramadoresService } from '../../../services/programadores';
 
 @Component({
   selector: 'app-programadores',
@@ -15,23 +14,16 @@ import { Programador } from '../../../core/models/programador.interface';
   styleUrls: ['./programadores.scss']
 })
 export class Programadores implements OnInit {
-  private firestore = inject(Firestore);
-  
-  // Usamos la interfaz 'Programador'
+
   programmers$!: Observable<Programador[]>;
   loading = true;
 
+  constructor(private programadoresService: ProgramadoresService) {}
+
   ngOnInit() {
-    this.fetchProgrammers();
-  }
+    this.programmers$ = this.programadoresService.getProgramadores();
 
-  fetchProgrammers() {
-    const usersRef = collection(this.firestore, 'users');
-    // Buscamos users donde el rol sea 'programador'
-    const q = query(usersRef, where('role', '==', 'programador'));
-
-    this.programmers$ = collectionData(q, { idField: 'uid' }) as Observable<Programador[]>;
-    
-    this.loading = false;
+    // Opcional: ocultar loader cuando lleguen los datos
+    this.programmers$.subscribe(() => this.loading = false);
   }
 }

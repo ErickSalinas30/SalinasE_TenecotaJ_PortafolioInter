@@ -1,18 +1,22 @@
 <nav class="navbar">
   <div class="left">
-  <a routerLink="/">Home</a>
+    <a routerLink="/">Home</a>
 
-  <!-- Menú Admin -->
-  <a *ngIf="(auth.userData$ | async)?.role === 'admin'" routerLink="/admin">
-    Admin
-  </a>
+    <!-- Menú Admin -->
+    <a *ngIf="(auth.userData$ | async)?.role === 'admin'" routerLink="/admin">
+      Admin
+    </a>
 
-  <!-- Menú Programador -->
-  <div *ngIf="(auth.userData$ | async)?.role === 'programador'">
-    <a routerLink="/programador">Panel Programador</a>
-    <a routerLink="/programador/solicitudes">Solicitudes</a>
+    <!-- Menú Programador -->
+    <a *ngIf="(auth.userData$ | async)?.role === 'programador'" routerLink="/programador">
+      Panel Programador
+    </a>
+
+    <a *ngIf="(auth.userData$ | async)?.role === 'programador'" routerLink="/programador/solicitudes">
+      Solicitudes
+    </a>
+
   </div>
-</div>
 
 
   <div class="right">

@@ -7,4 +7,5 @@ export interface Proyecto {
   tecnologias: string;
   repoUrl?: string;
   demoUrl?: string;
+  photoURL?: string; // <- opcional
 }

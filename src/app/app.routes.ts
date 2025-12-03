@@ -28,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: 'agendar',
-    loadComponent: () => 
+    loadComponent: () =>
       // OJO: Aquí apuntamos al archivo con nombre largo (.component)
       import('./asesorias/agendar/agendar.component').then(m => m.AgendarComponent),
   },
@@ -50,8 +50,13 @@ export const routes: Routes = [
   },
 
   {
-  path: 'programador/solicitudes',
-  component: Solicitar
+    path: 'programador/solicitudes',
+    component: Solicitar
+  },
+  {
+    path: 'portafolio/:id/proyectos',
+    loadComponent: () =>
+      import('./programador/mis-proyectos/mis-proyectos').then(m => m.MisProyectos),
   },
 
 

@@ -31,10 +31,11 @@ export class AuthService {
           name: firebaseUser.displayName,
           email: firebaseUser.email,
           photo: firebaseUser.photoURL,
-          role: 'programador',
+          role: 'usuario',   // ✔ ahora TODOS entran como usuarios
           createdAt: new Date()
         });
       }
+
 
       // Obtenemos datos actualizados
       const updated = await getDoc(userRef);

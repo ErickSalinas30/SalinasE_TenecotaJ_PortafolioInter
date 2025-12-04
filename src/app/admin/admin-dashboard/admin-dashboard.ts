@@ -17,7 +17,7 @@ export class AdminDashboard implements OnInit {
 
   // Observable de usuarios
   users$!: Observable<Programador[]>;
-  
+
   // Variables para edición rápida (Tabla)
   editingId: string | null = null;
   editForm: any = {};
@@ -27,11 +27,12 @@ export class AdminDashboard implements OnInit {
   newUser: any = {
     displayName: '',
     email: '',
-    role: 'programador',
+    role: 'usuario',   // ✔ POR DEFECTO USUARIO
     specialty: '',
     description: '',
     horarios: ''
   };
+
 
   ngOnInit() {
     // 1. Traer TODOS los usuarios
@@ -42,7 +43,7 @@ export class AdminDashboard implements OnInit {
   // --- LÓGICA DE EDICIÓN (Tabla) ---
   startEdit(user: Programador) {
     this.editingId = user.uid;
-    this.editForm = { ...user }; 
+    this.editForm = { ...user };
   }
 
   cancelEdit() {
@@ -70,7 +71,7 @@ export class AdminDashboard implements OnInit {
   }
 
   async deleteUser(uid: string) {
-    if(confirm('¿Estás seguro de eliminar este usuario del sistema?')) {
+    if (confirm('¿Estás seguro de eliminar este usuario del sistema?')) {
       const userRef = doc(this.firestore, `users/${uid}`);
       await deleteDoc(userRef);
     }
@@ -81,11 +82,11 @@ export class AdminDashboard implements OnInit {
     this.showCreateModal = !this.showCreateModal;
     // Reseteamos el formulario al abrir
     if (this.showCreateModal) {
-      this.newUser = { 
-        displayName: '', 
-        email: '', 
-        role: 'programador', 
-        specialty: '', 
+      this.newUser = {
+        displayName: '',
+        email: '',
+        role: 'programador',
+        specialty: '',
         description: '',
         horarios: ''
       };
@@ -104,13 +105,14 @@ export class AdminDashboard implements OnInit {
       await addDoc(usersRef, {
         displayName: this.newUser.displayName,
         email: this.newUser.email,
-        role: this.newUser.role,
+        role: 'usuario', // ✔ SIEMPRE USUARIO
         specialty: this.newUser.specialty || '',
         description: this.newUser.description || '',
         horarios: this.newUser.horarios || '',
-        photoURL: '', // Sin foto al inicio
+        photoURL: '',
         createdAt: new Date()
       });
+
 
       alert('Usuario creado exitosamente');
       this.toggleCreateModal(); // Cerramos modal

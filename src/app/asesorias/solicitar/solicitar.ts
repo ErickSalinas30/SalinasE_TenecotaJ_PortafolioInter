@@ -1,60 +1,35 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AsesoriasService } from '../../core/services/asesorias';
-import { NotificacionesService } from '../../core/services/notificaciones';
-import { AuthService } from '../../core/services/auth';
+import { RouterLink } from '@angular/router';
+import { Firestore, collection, query, where, collectionData } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 import { Asesoria } from '../../core/models/asesoria.interface';
-import { Notificacion } from '../../core/models/notificacion.interface';
 
 @Component({
-  selector: 'app-solicitar',
+  selector: 'app-solicitar', // Puede que se llame app-solicitar o app-solicitar-component
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './solicitar.html',
   styleUrls: ['./solicitar.scss']
 })
-export class Solicitar implements OnInit {
-  solicitudes: Asesoria[] = [];
+export class Solicitar implements OnInit { // Verifica si tu clase se llama Solicitar o SolicitarComponent
+  private firestore = inject(Firestore);
+  private auth = inject(Auth);
 
-  private asesoriasService = inject(AsesoriasService);
-  private notificacionesService = inject(NotificacionesService);
-  private auth = inject(AuthService);
+  misSolicitudes$!: Observable<Asesoria[]>;
 
-  async ngOnInit() {
-    await this.cargarSolicitudes();
+  ngOnInit() {
+    const user = this.auth.currentUser;
+    if (user) {
+      this.cargarMisSolicitudes(user.uid);
+    }
   }
 
-  async cargarSolicitudes() {
-    const user = await new Promise<any>(resolve => {
-      this.auth.userData$.subscribe(u => resolve(u));
-    });
-    if (!user) return;
-
-    this.solicitudes = await this.asesoriasService.getSolicitudesPendientes(user.uid);
-  }
-
-  async responder(asesoria: Asesoria, estado: 'Aprobada' | 'Rechazada', respuesta?: string) {
-    if (!asesoria.id) return;
-
-    // 1. Actualizar estado en Firestore
-    await this.asesoriasService.actualizarEstado(asesoria.id, estado, respuesta);
-
-    // 2. Crear objeto Notificacion completo
-    const notificacion: Notificacion = {
-      userId: asesoria.clienteId,
-      type: estado === 'Aprobada' ? 'aprobacion' : 'rechazo',
-      message: estado === 'Aprobada'
-        ? `Tu solicitud fue aprobada por ${asesoria.programadorNombre}`
-        : `Tu solicitud fue rechazada por ${asesoria.programadorNombre}. ${respuesta || ''}`,
-      relatedAsesoriaId: asesoria.id,
-      createdAt: new Date(),
-      read: false
-    };
-
-    // 3. Enviar notificación
-    await this.notificacionesService.enviarNotificacion(notificacion);
-
-    // 4. Refrescar lista
-    await this.cargarSolicitudes();
+  cargarMisSolicitudes(uid: string) {
+    const asesoriaRef = collection(this.firestore, 'asesorias');
+    // Busca las citas donde el cliente sea el usuario actual
+    const q = query(asesoriaRef, where('clienteId', '==', uid));
+    this.misSolicitudes$ = collectionData(q, { idField: 'id' }) as Observable<Asesoria[]>;
   }
 }

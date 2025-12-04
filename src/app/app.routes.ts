@@ -59,7 +59,11 @@ export const routes: Routes = [
       import('./programador/mis-proyectos/mis-proyectos').then(m => m.MisProyectos),
   },
 
-  
+  // En app.routes.ts
+{
+  path: 'mis-asesorias',
+  loadComponent: () => import('./asesorias/solicitar/solicitar').then(m => m.Solicitar),
+},
 
 
   // --- COMODÍN (SIEMPRE AL FINAL) ---

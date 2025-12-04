@@ -30,7 +30,7 @@ export class AuthService {
           uid: firebaseUser.uid,
           name: firebaseUser.displayName,
           email: firebaseUser.email,
-          photo: firebaseUser.photoURL,
+          photoURL: firebaseUser.photoURL,
           role: 'usuario',   // ✔ ahora TODOS entran como usuarios
           createdAt: new Date()
         });

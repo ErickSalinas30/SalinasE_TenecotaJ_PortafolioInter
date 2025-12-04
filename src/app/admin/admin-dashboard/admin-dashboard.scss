@@ -1,6 +1,5 @@
 .admin-wrapper {
-  padding-top: 120px;
-  padding-bottom: 50px;
+  padding: 40px 20px; // Menos padding superior, más uniforme
   color: #e3e3e3;
 }
 
@@ -36,9 +35,26 @@
   overflow-x: auto;
 }
 
-table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 15px; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); }
-td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+table { 
+  width: 100%; 
+  min-width: 100% !important;
+  border-collapse: separate; // Cambio para espacio entre celdas
+  border-spacing: 0 10px;   // Añade separación vertical entre filas
+}
+
+th { 
+  text-align: left; 
+  padding: 15px 20px; 
+  color: #888; 
+  border-bottom: 1px solid rgba(255,255,255,0.1); 
+}
+td { 
+  padding: 15px 20px; // Más espacio interno
+  border-bottom: 1px solid rgba(255,255,255,0.05); 
+  vertical-align: middle; 
+  background: #1a1a1a; // Añadimos fondo a celdas para separar del borde
+  border-radius: 8px; // Bordes redondeados de cada celda
+}
 
 .user-info {
   display: flex; align-items: center; gap: 12px;
@@ -54,7 +70,6 @@ td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-al
   &.usuario { background: rgba(255, 255, 255, 0.1); color: #aaa; }
 }
 
-/* NUEVO ESTILO: BADGE DE HORARIO */
 .time-badge {
   background: rgba(255, 202, 40, 0.1);
   border: 1px solid rgba(255, 202, 40, 0.2);
@@ -64,6 +79,8 @@ td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-al
   font-family: monospace;
   font-size: 0.9rem;
 }
+
+.not-applicable { color: #666; font-size: 0.85rem; }
 
 .btn-icon {
   background: none; border: none; cursor: pointer; font-size: 1.2rem; margin-right: 10px;
@@ -91,3 +108,91 @@ td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-al
 }
 .form-group { margin-bottom: 15px; label { display: block; color: #aaa; margin-bottom: 5px; } }
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* ===== RESPONSIVE ===== */
+@media screen and (max-width: 768px) {
+
+  /* Ocultamos estructura de tabla y mostramos cards */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  /* Cada fila → CARD */
+  tbody tr {
+    background: #1a1a1a;
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* Cada celda ahora ocupa su propia fila vertical */
+  td {
+    display: block;
+    padding: 12px 0;
+    border: none;
+  }
+
+  /* Título de la propiedad */
+  td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #66a2ff;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  /* USER INFO vertical */
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  /* Botones un poco más compactos */
+  .btn-icon {
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+
+  .btn-save, .btn-cancel {
+    margin-top: 8px;
+    width: 100%;
+    padding: 8px 0;
+    font-size: 0.9rem;
+  }
+
+  /* Inputs ocupan toda la fila */
+  .input-dark, textarea {
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+  }
+
+  /* BADGES y horarios → en columna */
+  .time-badge,
+  .not-applicable,
+  .role-badge {
+    display: inline-block;
+    margin-top: 5px;
+  }
+  .btn-icon {
+    font-size: 1.6rem;         /* más grande */
+    padding: 12px;             /* más fácil de tocar */
+    margin-right: 15px;
+    border-radius: 10px;
+    background: #252525;       /* botón real */
+  }
+
+  td[data-label="Acciones"] {
+    display: flex !important;
+    gap: 15px;
+    margin-top: 10px;
+  }
+}

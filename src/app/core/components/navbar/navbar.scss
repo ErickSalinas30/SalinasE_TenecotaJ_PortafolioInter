@@ -1,4 +1,4 @@
-/* --- NAVBAR --- */
+/* --- NAVBAR GENERAL --- */
 .navbar {
   width: 100%;
   height: 70px;
@@ -7,31 +7,39 @@
   align-items: center;
   padding: 0 25px;
   gap: 20px;
+  position: relative; /* necesario para menu mobile */
 }
 
-/* ---- LINKS IZQUIERDA (desktop) ---- */
+.accion-movil
+{
+  color: white;
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+
+/* --- LINKS IZQUIERDA (desktop) --- */
 .nav-links {
   display: flex;
   align-items: center;
   gap: 25px;
-  flex-grow: 1; /* empuja la sección derecha */
+  flex-grow: 1;
 }
 
 .nav-links a {
   color: white;
   font-size: 1.1rem;
   text-decoration: none;
+  
 }
 
-/* ---- SECCIÓN DERECHA (usuario + cerrar sesión) ---- */
+/* --- SECCIÓN DERECHA --- */
 .right-section {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-right: 20px; /* evita que el botón quede pegado al borde */
+  margin-left: auto;
 }
 
-/* ---- USER INFO ---- */
 .user-info {
   display: flex;
   align-items: center;
@@ -49,7 +57,7 @@
   font-size: 1rem;
 }
 
-/* ---- BOTÓN CERRAR SESIÓN ---- */
+/* --- BOTÓN LOGOUT --- */
 .logout-btn {
   background: #4df788;
   padding: 10px 18px;
@@ -59,25 +67,7 @@
   font-weight: 600;
 }
 
-/* ------------------------- */
-/*        MODO MÓVIL         */
-/* ------------------------- */
-
-@media (max-width: 900px) {
-  .nav-links {
-    display: none;
-  }
-
-  .hamburger {
-    display: flex;
-  }
-
-  .right-section {
-    margin-right: 10px;
-  }
-}
-
-/* ---- HAMBURGUESA POR DEFECTO: OCULTA (ESCRITORIO) ---- */
+/* --- HAMBURGUESA (solo móvil) --- */
 .hamburger {
   display: none;
   cursor: pointer;
@@ -93,36 +83,45 @@
   transition: 0.3s;
 }
 
-/* -------------------------------------- */
-/*             MODO MÓVIL                 */
-/* -------------------------------------- */
+/* --- MENÚ MÓVIL (oculto por defecto) --- */
+.menu-mobile {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background: #181818;
+  
+  padding: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-mobile.open {
+  display: flex;
+  
+  align-items: center ;
+}
+
+/* ------------------------------- */
+/*        RESPONSIVE (móvil)       */
+/* ------------------------------- */
+
 @media (max-width: 900px) {
 
-  /* Mostrar hamburguesa */
+  /* mostrar hamburguesa */
   .hamburger {
     display: flex;
   }
 
-  /* Ocultar menu desktop */
+  /* ocultar links de escritorio */
   .nav-links {
     display: none;
   }
 
-  /* MENÚ MÓVIL DESPLEGABLE */
-  .menu-mobile {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background: #181818;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    display: none;
-  }
-
-  .menu-mobile.open {
-    display: flex;
+  /* ajustar right-section */
+  .right-section {
+    margin-left: auto;
+    gap: 10px;
   }
 }

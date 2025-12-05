@@ -7,24 +7,24 @@
     <span></span>
   </div>
 
+  <!-- MENÚ MÓVIL -->
   <div class="menu-mobile" [class.open]="menuOpen">
 
-  <a routerLink="/">Home</a>
+    <a class="accion-movil" routerLink="/">Home</a>
 
-  <a *ngIf="auth.currentRole === 'programador'" routerLink="/programador">
-    Panel Programador
-  </a>
+    <a class="accion-movil" *ngIf="auth.currentRole === 'programador'" routerLink="/programador">
+      Panel Programador
+    </a>
 
-  <a *ngIf="auth.currentRole === 'usuario'" routerLink="/mis-asesorias">
-    Mis Asesorías
-  </a>
+    <a *ngIf="auth.currentRole === 'usuario'" routerLink="/mis-asesorias">
+      Mis Asesorías
+    </a>
 
-  <button (click)="logout()" class="logout-btn">
-    Cerrar sesión
-  </button>
+    <button (click)="logout()" class="logout-btn">
+      Cerrar sesión
+    </button>
 
-</div>
-
+  </div>
 
   <!-- LINKS IZQUIERDA -->
   <div class="nav-links">
@@ -32,7 +32,7 @@
     <a *ngIf="auth.currentRole === 'programador'" routerLink="/programador">Panel Programador</a>
   </div>
 
-  <!-- DERECHA: USER + CERRAR SESIÓN -->
+  <!-- DERECHA (usuario + logout) -->
   <div class="right-section">
     <div class="user-info" *ngIf="user$ | async as user">
       <img [src]="user.photoURL || 'assets/user.png'" alt="User">

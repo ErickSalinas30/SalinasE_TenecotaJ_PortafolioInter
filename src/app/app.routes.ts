@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { adminGuard } from './core/guards/admin-guard';
 import { programadorGuard } from './core/guards/programador-guard';
-import { Solicitar } from './asesorias/solicitar/solicitar';
 
 export const routes: Routes = [
   // --- RUTAS PÚBLICAS ---
@@ -51,8 +50,10 @@ export const routes: Routes = [
 
   {
     path: 'programador/solicitudes',
-    component: Solicitar
+    loadComponent: () =>
+      import('./asesorias/solicitar/solicitar').then(m => m.Solicitar)
   },
+
   {
     path: 'portafolio/:id/proyectos',
     loadComponent: () =>
@@ -60,12 +61,13 @@ export const routes: Routes = [
   },
 
   // En app.routes.ts
-{
-  path: 'mis-asesorias',
-  loadComponent: () => import('./asesorias/solicitar/solicitar').then(m => m.Solicitar),
-},
+  {
+    path: 'mis-asesorias',
+    loadComponent: () => import('./asesorias/solicitar/solicitar').then(m => m.Solicitar),
+  },
 
 
   // --- COMODÍN (SIEMPRE AL FINAL) ---
-  { path: '**', redirectTo: '' },
+  { path: '**', pathMatch: 'full', redirectTo: '' },
+
 ];

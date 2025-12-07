@@ -10,6 +10,7 @@ import {
 } from '@angular/fire/auth';
 
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -131,12 +132,25 @@ export class AuthService {
   }
 
   // -------------------------
-  // 🔴 LOGOUT
-  // -------------------------
+  // 🔴 LOGOUT (CORREGIDO)
+  //–-------------------------
   async logout() {
-    await signOut(this.auth);
-    this.userData.next(null);
-    this.currentUser = null;
-    this.currentRole = null;
+    try {
+      await signOut(this.auth);
+
+      // Limpia estado local
+      this.userData.next(null);
+      this.currentUser = null;
+      this.currentRole = null;
+      localStorage.clear();
+
+      // Navegación segura
+      const router = inject(Router);
+      router.navigate(['/login'], { replaceUrl: true });
+
+    } catch (error) {
+      console.error('Error en logout:', error);
+    }
   }
+
 }

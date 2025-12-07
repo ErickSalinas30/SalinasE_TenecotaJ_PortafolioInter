@@ -284,3 +284,25 @@ h3 { margin: 0; font-size: 1.1rem; color: #fff; }
 .input-dark.ng-invalid.ng-touched {
   border-color: #ff5252 !important;
 }
+
+/* CLASE PARA ERROR VISUAL */
+.invalid-border {
+  border: 1px solid #ff5252 !important; /* Rojo */
+  box-shadow: 0 0 5px rgba(255, 82, 82, 0.5);
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.error-msg {
+  color: #ff5252;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
+}

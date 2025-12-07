@@ -2,10 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Firestore, collection, addDoc, deleteDoc, doc, query, where, collectionData, updateDoc } from '@angular/fire/firestore';
-import { Auth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { Auth, authState } from '@angular/fire/auth';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 import { Proyecto } from '../../core/models/proyecto.interface';
-import { Asesoria } from '../../core/models/asesoria.interface'; 
+import { Asesoria } from '../../core/models/asesoria.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,117 +20,188 @@ export class Dashboard implements OnInit {
   private firestore = inject(Firestore);
   private auth = inject(Auth);
 
-  projects$!: Observable<Proyecto[]>;
-  asesorias$!: Observable<Asesoria[]>;
+  // Observables para las listas
+  academicos$: Observable<Proyecto[]> = of([]);
+  laborales$: Observable<Proyecto[]> = of([]);
+  asesorias$: Observable<Asesoria[]> = of([]);
+  
   currentUser: any;
+  
+  // Bandera para la validación visual (Borde rojo)
+  submitted = false; 
 
-  // Objeto para el formulario
   newProject: Proyecto = {
-    programmerId: '',
-    titulo: '',
-    descripcion: '',
-    tipo: 'Academico',
-    participacion: 'Frontend', // Valor por defecto
-    tecnologias: '',
-    repoUrl: '',
+    programmerId: '', 
+    titulo: '', 
+    descripcion: '', 
+    tipo: 'Academico', 
+    participacion: 'Frontend', 
+    tecnologias: '', 
+    repoUrl: '', 
     demoUrl: ''
   };
 
   ngOnInit() {
-    this.currentUser = this.auth.currentUser;
-    
-    if (this.currentUser) {
-      this.loadMyProjects();
-      this.loadMisAsesorias();
-    }
+    // Esperamos a que Firebase cargue el usuario para evitar errores
+    authState(this.auth).subscribe(user => {
+      if(user) {
+        this.currentUser = user;
+        this.loadMyProjects();
+        this.loadMisAsesorias();
+      }
+    });
   }
 
+  // --- CARGAR PROYECTOS Y SEPARARLOS ---
   loadMyProjects() {
     const projectsRef = collection(this.firestore, 'projects');
-    // Carga solo los proyectos de este programador
     const q = query(projectsRef, where('programmerId', '==', this.currentUser.uid));
-    this.projects$ = collectionData(q, { idField: 'id' }) as Observable<Proyecto[]>;
+    
+    // Obtenemos todos
+    const allProjects$ = collectionData(q, { idField: 'id' }) as Observable<Proyecto[]>;
+
+    // Filtramos Académicos
+    this.academicos$ = allProjects$.pipe(
+      map(projects => projects.filter(p => p.tipo === 'Academico'))
+    );
+
+    // Filtramos Laborales
+    this.laborales$ = allProjects$.pipe(
+      map(projects => projects.filter(p => p.tipo === 'Laboral'))
+    );
   }
 
+  // --- CARGAR SOLICITUDES DE ASESORÍA ---
   loadMisAsesorias() {
     const asesoriasRef = collection(this.firestore, 'asesorias');
-    // Carga las solicitudes dirigidas a este programador
     const q = query(asesoriasRef, where('programadorId', '==', this.currentUser.uid));
     this.asesorias$ = collectionData(q, { idField: 'id' }) as Observable<Asesoria[]>;
   }
 
-  // --- LÓGICA DE RESPUESTA Y SIMULACIÓN (Requerimiento 6) ---
-  async responderAsesoria(asesoria: Asesoria, estado: 'Aprobada' | 'Rechazada') {
-    // 1. Pedir mensaje opcional (Nativo)
-    const mensaje = prompt(`Escribe un mensaje de ${estado.toLowerCase()} (Opcional):`);
-    
-    // Referencia al documento en Firebase
-    const docRef = doc(this.firestore, `asesorias/${asesoria.id}`);
-    
-    try {
-      // 2. Actualizar en Base de Datos
-      await updateDoc(docRef, {
-        estado: estado,
-        respuesta: mensaje || ''
-      });
-
-      // 3. Simulación de Correo (Alerta visual)
-      alert(`✅ SIMULACIÓN: Enviando correo de notificación a ${asesoria.clienteEmail}...\n\nAsunto: Tu asesoría fue ${estado}.\nMensaje: ${mensaje || 'Sin comentarios.'}`);
-
-      // 4. Simulación de WhatsApp (Confirmación para abrir link)
-      if (confirm('¿Deseas notificar al usuario por WhatsApp Web ahora?')) {
-        const textoWhatsapp = `Hola ${asesoria.clienteNombre}, tu solicitud de asesoría ha sido *${estado.toUpperCase()}*. ${mensaje ? 'Nota: ' + mensaje : ''}`;
-        const url = `https://wa.me/?text=${encodeURIComponent(textoWhatsapp)}`;
-        window.open(url, '_blank');
-      }
-
-    } catch (error) {
-      console.error(error);
-      alert('Error al actualizar la cita');
-    }
-  }
-
   // --- AGREGAR PROYECTO ---
   async addProject() {
-    // Validación de seguridad
+    // 1. Activar validación visual (Borde rojo en HTML)
+    this.submitted = true;
+
+    // 2. Validación lógica
     if (!this.newProject.titulo || !this.newProject.descripcion) {
-      alert('El título y la descripción son obligatorios');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Faltan datos',
+        text: 'Por favor completa los campos marcados en rojo.',
+        confirmButtonColor: '#ffb300'
+      });
       return;
     }
 
     try {
-      // Asignamos el ID del usuario actual al proyecto
       this.newProject.programmerId = this.currentUser.uid;
+      await addDoc(collection(this.firestore, 'projects'), this.newProject);
       
-      const projectsRef = collection(this.firestore, 'projects');
-      await addDoc(projectsRef, this.newProject);
+      Swal.fire({
+        icon: 'success',
+        title: '¡Publicado!',
+        text: 'Proyecto agregado correctamente.',
+        timer: 1500,
+        showConfirmButton: false
+      });
       
-      alert('Proyecto agregado con éxito');
       this.resetForm();
     } catch (error) {
       console.error(error);
-      alert('Error al guardar');
+      Swal.fire('Error', 'No se pudo guardar el proyecto', 'error');
     }
   }
 
   // --- ELIMINAR PROYECTO ---
   async deleteProject(projectId: string) {
-    if (confirm('¿Eliminar este proyecto? No se puede deshacer.')) {
-      const docRef = doc(this.firestore, `projects/${projectId}`);
-      await deleteDoc(docRef);
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+      await deleteDoc(doc(this.firestore, `projects/${projectId}`));
+      Swal.fire('Eliminado', 'Proyecto borrado.', 'success');
     }
   }
 
-  // --- RESETEAR FORMULARIO ---
+  // --- RESPONDER ASESORÍA (CON SIMULACIÓN) ---
+  async responderAsesoria(asesoria: Asesoria, estado: 'Aprobada' | 'Rechazada') {
+    
+    // 1. Pedir mensaje
+    const { value: mensaje } = await Swal.fire({
+      title: `Confirmar como ${estado}`,
+      input: 'textarea',
+      inputLabel: 'Mensaje para el usuario:',
+      inputPlaceholder: 'Escribe aquí...',
+      showCancelButton: true,
+      confirmButtonText: 'Enviar Respuesta',
+      confirmButtonColor: estado === 'Aprobada' ? '#66bb6a' : '#ef5350'
+    });
+
+    if (mensaje === undefined) return; // Cancelado
+    
+    try {
+      // 2. Actualizar BD
+      await updateDoc(doc(this.firestore, `asesorias/${asesoria.id}`), {
+        estado: estado,
+        respuesta: mensaje || ''
+      });
+
+      // 3. Simulación Correo
+      await Swal.fire({
+        icon: 'info',
+        title: '✉️ Simulación de Correo',
+        html: `
+          <div style="text-align: left">
+            <p><strong>Enviando a:</strong> ${asesoria.clienteEmail}</p>
+            <p><strong>Asunto:</strong> Tu asesoría fue ${estado}</p>
+            <hr>
+            <p><em>${mensaje || 'Sin comentarios.'}</em></p>
+          </div>
+        `,
+        confirmButtonText: 'Continuar'
+      });
+
+      // 4. Simulación WhatsApp
+      const result = await Swal.fire({
+        icon: 'question',
+        title: 'WhatsApp',
+        text: '¿Deseas notificar por WhatsApp Web?',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, abrir',
+        confirmButtonColor: '#25D366',
+        cancelButtonText: 'No'
+      });
+
+      if (result.isConfirmed) {
+        const txt = `Hola ${asesoria.clienteNombre}, tu solicitud fue *${estado.toUpperCase()}*. ${mensaje}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
+      }
+
+    } catch (error) {
+      console.error(error);
+      Swal.fire('Error', 'No se pudo actualizar', 'error');
+    }
+  }
+
   resetForm() {
+    this.submitted = false; // Resetear bandera visual
     this.newProject = {
-      programmerId: '',
-      titulo: '',
-      descripcion: '',
-      tipo: 'Academico',
-      participacion: 'Frontend', // Reseteamos al valor por defecto
-      tecnologias: '',
-      repoUrl: '',
+      programmerId: '', 
+      titulo: '', 
+      descripcion: '', 
+      tipo: 'Academico', 
+      participacion: 'Frontend', 
+      tecnologias: '', 
+      repoUrl: '', 
       demoUrl: ''
     };
   }

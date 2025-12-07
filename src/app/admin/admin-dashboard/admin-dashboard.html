@@ -20,12 +20,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let user of users$ | async">
-          
+
           <!-- === MODO VISTA === -->
           <ng-container *ngIf="editingId !== user.uid">
             <td>
               <div class="user-info">
-                <img [src]="user.photoURL || 'https://ui-avatars.com/api/?name='+(user.displayName||user.email)" class="avatar">
+                <img [src]="user.photoURL || 'https://ui-avatars.com/api/?name='+(user.displayName||user.email)"
+                  class="avatar">
                 <div>
                   <div class="name">{{ user.displayName || 'Sin Nombre' }}</div>
                   <div class="email">{{ user.email }}</div>
@@ -34,7 +35,7 @@
             </td>
             <td><span class="role-badge" [ngClass]="user.role">{{ user.role }}</span></td>
             <td>{{ user.specialty || '---' }}</td>
-            
+
             <!-- VISTA DEL RANGO -->
             <td>
               <span *ngIf="user.role === 'programador'" class="time-badge">
@@ -60,7 +61,7 @@
               </select>
             </td>
             <td><input type="text" [(ngModel)]="editForm.specialty" class="input-dark"></td>
-            
+
             <!-- EDICIÓN DEL RANGO (Dos Selects) -->
             <td>
               <div *ngIf="editForm.role === 'programador'" style="display: flex; gap: 5px; flex-direction: column;">
@@ -94,5 +95,54 @@
 
 <!-- Modal sigue igual al anterior -->
 <div class="modal-overlay" *ngIf="showCreateModal">
-  <!-- (Código del modal que ya tenías) -->
+  <div class="modal-content">
+    <h2>Registrar Nuevo Usuario</h2>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" [(ngModel)]="newUser.displayName" class="input-dark">
+    </div>
+    <div class="form-group">
+      <label>Correo</label>
+      <input type="email" [(ngModel)]="newUser.email" class="input-dark">
+    </div>
+    <div class="form-group">
+      <label>Rol</label>
+      <select [(ngModel)]="newUser.role" class="input-dark">
+        <option value="usuario">Usuario</option>
+        <option value="programador">Programador</option>
+        <option value="admin">Administrador</option>
+      </select>
+    </div>
+
+    <div class="form-group" *ngIf="newUser.role === 'programador'">
+      <label>Especialidad</label>
+      <input type="text" [(ngModel)]="newUser.specialty" class="input-dark"
+        placeholder="Ej: Frontend, Backend, Bases de datos" />
+    </div>
+
+    <div class="form-group" *ngIf="newUser.role === 'programador'">
+      <label>Horario de trabajo</label>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div>
+          <label style="font-size: 0.8rem; color: #aaa;">Hora de entrada</label>
+          <select [(ngModel)]="newUser.horaInicio" class="input-dark">
+            <option *ngFor="let hora of horasPosibles" [value]="hora">{{ hora }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size: 0.8rem; color: #aaa;">Hora de salida</label>
+          <select [(ngModel)]="newUser.horaFin" class="input-dark">
+            <option *ngFor="let hora of horasPosibles" [value]="hora">{{ hora }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="toggleCreateModal()">Cancelar</button>
+      <button class="btn-save" (click)="createUser()">Crear</button>
+    </div>
+  </div>
 </div>
